@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors({
-    origin: 'https://ecommerce-mernstack-backend.vercel.app/',
+    origin: 'https://ecommerce-mernstack-frontend-w6xa.vercel.app/',
     credentials: true
 }))
 
