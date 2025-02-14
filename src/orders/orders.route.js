@@ -27,8 +27,8 @@ router.post("/create-checkout-session", async (req, res) => {
       line_items: lineItems,
       mode: "payment",
       success_url:
-        "https://ecommerce-mernstack-frontend-w6xa.vercel.app/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://ecommerce-mernstack-frontend-w6xa.vercel.app/cancel",
+        "https://ecommerce-mernstack-frontend.vercel.app/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://ecommerce-mernstack-frontend.vercel.app/cancel",
     });
 
     res.json({ id: session.id });
