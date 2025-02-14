@@ -1,52 +1,51 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require('cors')
+const cors = require("cors");
 const app = express();
-require('dotenv').config()
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser')
+require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+
 const port = process.env.PORT || 5000;
 
-// middleware setup
-app.use(express.json({limit: "25mb"}));
-// app.use((express.urlencoded({limit: "25mb"})));
+// Middleware setup
+app.use(express.json({ limit: "25mb" }));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(cors({
-    origin: 'https://ecommerce-mernstack-frontend-w6xa.vercel.app/',
-    credentials: true
-}))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "https://ecommerce-mernstack-frontend-w6xa.vercel.app/",
+    credentials: true,
+  })
+);
 
-// image upload 
-const uploadImage = require("./src/utils/uploadImage")
+// Image upload
+const uploadImage = require("./src/utils/uploadImage");
 
-// all routes
-const authRoutes = require('./src/users/user.route');
-const productRoutes =  require('./src/products/products.route');
-const reviewRoutes = require('./src/reviews/reviews.router');
-const orderRoutes = require('./src/orders/orders.route');
-const statsRoutes = require('./src/stats/stats.route')
+// All routes
+const authRoutes = require("./src/users/user.route");
+const productRoutes = require("./src/products/products.route");
+const reviewRoutes = require("./src/reviews/reviews.router");
+const orderRoutes = require("./src/orders/orders.route");
+const statsRoutes = require("./src/stats/stats.route");
 
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/stats', statsRoutes)
-
-
-
-main()
-  .then(() => console.log("mongodb is successfully connected."))
-  .catch((err) => console.log(err));
+app.use("/api/orders", orderRoutes);
+app.use("/api/stats", statsRoutes);
 
 async function main() {
   await mongoose.connect(process.env.DB_URL);
-
-  app.get("/", (req, res) => {
-    res.send("Lebaba E-commerce Server is running....!");
-  });
+  console.log("MongoDB is successfully connected.");
 }
+
+main().catch((err) => console.log(err));
+
+app.get("/", (req, res) => {
+  res.send("Lebaba E-commerce Server is running....!");
+});
 
 app.post("/uploadImage", (req, res) => {
   uploadImage(req.body.image)
@@ -54,6 +53,7 @@ app.post("/uploadImage", (req, res) => {
     .catch((err) => res.status(500).send(err));
 });
 
+// ✅ تأكد من وضع هذا الجزء **خارج** `main()`
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
